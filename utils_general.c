@@ -150,7 +150,7 @@ if(!profile_path_start){free(tmp_path);return FALSE;}
 
 unsigned int profile_size_bytes = (wcslen(profile_path_start))*2; // Avoiding the trailing slash.
 
-*output_path = malloc(profile_size_bytes+2);
+*output_path = calloc(1,profile_size_bytes+2);
 memcpy(*output_path,profile_path_start,profile_size_bytes);
 free(tmp_path);
 utils_general_DBG_printfW(L"Profile Path2: %s",*output_path);
