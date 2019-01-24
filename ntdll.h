@@ -1,18 +1,31 @@
 #pragma once
 
 #include <winternl.h>
-#include <ntdef.h>
+
+#define STATUS_SUCCESS 0
+#define FILE_ATTRIBUTE_VALID_FLAGS 0x00007fb7
 
 typedef struct _RTLP_CURDIR_REF {
-    LONG CurrentDirectoryReferenceCount;
-    HANDLE Handle;
+	LONG CurrentDirectoryReferenceCount;
+	HANDLE Handle;
 } RTLP_CURDIR_REF, *PRTLP_CURDIR_REF;
 
 typedef struct RTL_RELATIVE_NAME_U {
-    UNICODE_STRING RelativeName;
-    HANDLE ContainingDirectory;
-    PRTLP_CURDIR_REF CurrentDirectoryReference;
+	UNICODE_STRING RelativeName;
+	HANDLE ContainingDirectory;
+	PRTLP_CURDIR_REF CurrentDirectoryReference;
 } RTL_RELATIVE_NAME_U, *PRTL_RELATIVE_NAME_U;
+
+#ifndef PFILE_BASIC_INFORMATION
+typedef struct _FILE_BASIC_INFORMATION
+{
+	LARGE_INTEGER CreationTime;
+	LARGE_INTEGER LastAccessTime;
+	LARGE_INTEGER LastWriteTime;
+	LARGE_INTEGER ChangeTime;
+	ULONG FileAttributes;
+} FILE_BASIC_INFORMATION, *PFILE_BASIC_INFORMATION;
+#endif
 
 // NTDLL Templates
 typedef NTSTATUS(NTAPI *pNtCreateFile)(PHANDLE FileHandle, DWORD DesiredAccess, POBJECT_ATTRIBUTES ObjectAttributes, PIO_STATUS_BLOCK IoStatusBlock, PLARGE_INTEGER AllocationSize, ULONG FileAttributes, ULONG ShareAccess, ULONG CreateDisposition, ULONG CreateOptions, PVOID EaBuffer, ULONG EaLength);
